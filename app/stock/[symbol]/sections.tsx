@@ -219,12 +219,10 @@ const latestChange = rows[0]?.change ?? null;
 
 return (
   <div className="space-y-6">
-    {/*
-      Show the large latest price section ONLY if we actually have a price.
-      `latestPrice && (...)` means:
-      - If latestPrice is truthy → render this block
-      - If null → render nothing
-    */}
+  {/* 
+  render this block only if latestPrice is truthy.
+  if it is null or undefined, nothing is rendered.
+*/}
     {latestPrice && (
       <div className="flex items-baseline gap-2 px-1">
         
