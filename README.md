@@ -2,6 +2,10 @@
 
 A stock dashboard that pulls live data from Alpha Vantage and shows it in a clean, dark UI. You get a home page of ticker cards, then drill into any symbol for company overview, a 30-day price chart, and a daily table.
 
+Why the 12-second delay:
+
+Alpha Vantage’s free tier allows only 5 API requests per minute. On each stock page we call the API twice: first for company overview, then for daily price history. If both ran back-to-back we’d use 2 requests in the same minute; with multiple users or refreshes we’d quickly hit the limit and get rate-limited. So we wait 12 seconds before calling the daily endpoint. The overview runs right away so the page can show company info quickly; the daily request runs after the delay so that, in practice, we stay under 5 requests per minute and avoid rate-limit errors. The 12-second pause is a simple way to respect the API limit without changing the two-call design.
+
 **How it runs.** Install deps, add your API key, then start the dev server. The app fetches overview data right away; daily time series is delayed to respect Alpha Vantage’s rate limits, so the chart and table load after a short wait. All pages are server-rendered except the chart, which uses Recharts on the client.
 
 ```bash
